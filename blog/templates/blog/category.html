@@ -1,0 +1,43 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}{{ category.title }}{% endblock title %}
+{% block body %}
+
+<section class="mt-5">
+    <div class="containelr mx-1"> <!-- Added mx-3 class here for horizontal margin -->
+        <div class="row">
+            <div class="col-lg-8 offset- mx-auto"> <!-- Added mx-auto class for centering content -->
+                {% for post in  posts%}                  
+                <a class="nav-link text-dark" aria-current="page" href="{% url "post_details" post.category.slug post.slug %}">
+                    <div class="content-body border-bottom mb-2">
+                      <h1 class="title ">{{ post.title }}</h1>
+                      <p> {{ post.intro }}</p>
+                      <div class="row">
+                        <div class="col">
+                            <h2 class="small text-start text-muted">{{ post.views }} views</h2>
+                        </div>
+                        <div class="col">
+                          {% if post.comments.count == 0 %}
+                            <h2 class="small text-center text-muted">{{ post.comments.count }} comments</h2>
+                          {% elif post.comments.count == 1 %}
+                            <h2 class="small text-center text-muted">{{ post.comments.count }} comment</h2>
+                          {% else %}
+                            <h2 class="small text-center text-muted">{{ post.comments.count }} comments</h2>
+                          {% endif %}
+                        </div>
+                        <div class="col">
+                            <h2 class="small text-end text-muted">{{ post.publish_date| timesince }} ago</h2>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                  <div class="content">
+                    <p><strong>There is no posts available.</strong></p>
+                  </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}
+
